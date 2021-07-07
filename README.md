@@ -1,5 +1,5 @@
 # tinybot-autopilot
-Driver program for tiny self-driving car that follows a line track. Uses Raspberry Pi4 microcontroller and various sensors 
+Driver program for tiny self-driving car that follows a line track and goes around stationary/moving obstacles in its path. Uses Raspberry Pi4 microcontroller and various sensors 
 
 ## Documentation: https://drive.google.com/file/d/1eapBSEoN1Z0PoiNNOqIbhd1znlBn6Igq/view
 
