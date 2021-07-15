@@ -22,7 +22,8 @@ init functions in each module
 #define TRIGGER 27          // Echo sensor for GPIO 27
 #define ECHO_SIDE 24        // Echo sensor for GPIO 24
 #define TRIGGER_SIDE 18     // Echo sensor for GPIO 18
-void init() {
+void init(char* path) {
+    
     // initialize wiringPi and button gpio
     if (wiringPiSetupGpio() < 0)
         printf("error with wiringPiSetupGpio()!\n");
@@ -38,7 +39,13 @@ void init() {
     sensors_init();     // initialize all sensors
     motor_init();       // initialize motors
     speedometer_init(); // initialize SPI for speedometer
-    // initialize lidar
+
+    // get the argument and pass to lidar
+    if(path != NULL)
+        init_lidar(path);
+    else    
+        printf("Warning: fifo path for lidar pipe not provided.\n");
+        
 }
 
 /**************************************************************

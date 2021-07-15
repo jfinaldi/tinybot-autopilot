@@ -1,6 +1,6 @@
 /**************************************************************
-* Class: CSC-615-01 Spring 2020
-* Name: Team Shartcar
+* Class: CSC-615-01 Spring 2021
+* Name: Jennifer Finaldi
 * Student ID: 
 * Github ID: 
 * Project: Drive On
@@ -11,3 +11,8 @@
 *
 **************************************************************/
 #include "Include.h"
+
+void init_lidar(char* path) {
+    // update fifo path global variable
+    fifo_path = path;
+}

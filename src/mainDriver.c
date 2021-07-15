@@ -17,17 +17,21 @@
 void intro();
 
 int main(int argc, char** argv) {
+    
     //initialize
-    init();
+    if(argc > 1) 
+        init(argv[1]);
+    else
+        init(NULL);
     intro();
 
     // thread variables
     pthread_t line_A, line_B, line_C, line_D, line_E; // line sensor threads
-    //pthread_t obs_A, obs_B, obs_C, obs_D;             // ir sensor threads
     pthread_t distance, side_distance;                // distance measuring
-    pthread_t button;                                 //button
+    pthread_t button;                                 // button
     pthread_t drive;                                  
     pthread_t speedA, speedB;
+    pthread_t lidar;
     pthread_attr_t attr;
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);

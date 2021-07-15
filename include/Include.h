@@ -20,11 +20,12 @@
 #include <stdint.h>       // for DEV_Config.c
 #include <stdio.h>        // for printf output
 #include <stdlib.h>       // for absolute value function
+#include <sys/types.h>    // for mkfifo pipe
+#include <sys/stat.h>     // for mkfifo pipe
 #include <time.h>         // for echo sensor
 #include <wiringPi.h>     // for DEV_Config.c, and everything else
 #include <wiringPiI2C.h>  // for DEV_Config.c
 #include <wiringPiSPI.h>  // for Speedometer.c SPI comms
-
 
 // Headers
 #include "Debug.h"
@@ -36,13 +37,22 @@
 #include "Speedometer.h"
 
 // Sensors
-extern int LINESENSOR_A;  //Extreme Left 
-extern int LINESENSOR_B;  //Mid Left     
-extern int LINESENSOR_C;  //Mid Center
-extern int LINESENSOR_D;  //Mid Right
-extern int LINESENSOR_E;  //Extreme Right 
+extern int LINESENSOR_A;           // Extreme Left 
+extern int LINESENSOR_B;           // Mid Left     
+extern int LINESENSOR_C;           // Mid Center
+extern int LINESENSOR_D;           // Mid Right
+extern int LINESENSOR_E;           // Extreme Right 
 extern int BUTTON;
-extern int US_MULTIPLIER; //for calculating distance
+extern int US_MULTIPLIER;          // for calculating distance
+
+// Lidar angle distances
+extern volatile double a_30;       // 30 degrees to the right
+extern volatile double a_60;       // 60 degrees to the right
+extern volatile double a_90;       // 90 degrees right
+extern volatile double a_270;      // 90 degrees left
+extern volatile double a_300;      // 60 degrees to the left
+extern volatile double a_330;      // 30 degrees to the left
+extern volatile double a_359;      // ~0 degrees straight ahead
 
 // PCA9685 GPIO Config
 extern unsigned char SUBADR1;
@@ -109,6 +119,7 @@ extern int VEER;                  // scalar for minor maneuvers
 extern int AGGRESSIVE;            // scalar for major maneuvers
 
 // Global Variables
+extern volatile char* fifo_path;       // path to fifo file for pipe
 extern volatile int distance;          // distance of car to obstacle
 extern volatile int side_distance;     // distance of left side of car to obstacle
 extern volatile double cur_speed_a;    // speed of motor A wheel
@@ -143,12 +154,11 @@ void* driveThread(void* args);
 void* distanceThread(void* args);
 
 // Other prototypes
-void init();
+void init(char* path);
 void globals_init();
 void halt();
 void resume();
 int veer(int, int, int);
-//int obstacleIsAhead();
 int sharpTurn(int, int, int);
 int goAround();
 int getUnstuck();

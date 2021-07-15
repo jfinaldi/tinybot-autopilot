@@ -14,11 +14,11 @@
 #include "Include.h"
 
 // Sensors
-int LINESENSOR_A;  //Extreme Left 
-int LINESENSOR_B;  //Mid Left     
-int LINESENSOR_C;  //Mid Center
-int LINESENSOR_D;  //Mid Right
-int LINESENSOR_E;  //Extreme Right 
+int LINESENSOR_A;  // Extreme Left 
+int LINESENSOR_B;  // Mid Left     
+int LINESENSOR_C;  // Mid Center
+int LINESENSOR_D;  // Mid Right
+int LINESENSOR_E;  // Extreme Right 
 
 // PCA9685 GPIO config
 unsigned char SUBADR1;             
@@ -86,14 +86,22 @@ int MAX_CYCLES;                 // 25 counts before calc speed
 int VEER;
 int AGGRESSIVE;
 
-// LIDAR
+// Lidar angle distances
+volatile double a_30;           // 30 degrees to the right
+volatile double a_60;           // 60 degrees to the right
+volatile double a_90;           // 90 degrees right
+volatile double a_270;          // 90 degrees left
+volatile double a_300;          // 60 degrees to the left
+volatile double a_330;          // 30 degrees to the left
+volatile double a_359;          // ~0 degrees straight ahead
 
 // All of our global variables
-volatile double cur_speed_a;       // speed of motor A wheel
-volatile double cur_speed_b;       // speed of motor B wheel
+volatile char* fifo_path;       // path to fifo file for pipe
+volatile double cur_speed_a;    // speed of motor A wheel
+volatile double cur_speed_b;    // speed of motor B wheel
 volatile int currentPowerA;     // range 0-100 (percent) Motor.c
 volatile int currentPowerB;     
-volatile int currentDirectionA;  // 1 for forwards, 0 for back Motor.c
+volatile int currentDirectionA; // 1 for forwards, 0 for back Motor.c
 volatile int currentDirectionB;
 volatile int halted;            // 1 for vehicle halted for obstacle
 volatile int onLine_A;          // 0 for off the line, 1 for on line
@@ -191,11 +199,19 @@ void globals_init() {
     VEER = 10;               // add/sub 10 power for turn
     AGGRESSIVE = 20;         // add/sub 20 power for turn
 
-    // LIDAR
+    // Lidar angle distances
+    a_30 = 9999999.0;       // 30 degrees to the right
+    a_60 = 9999999.0;       // 60 degrees to the right
+    a_90 = 9999999.0;       // 90 degrees right
+    a_270 = 9999999.0;      // 90 degrees left
+    a_300 = 9999999.0;      // 60 degrees to the left
+    a_330 = 9999999.0;      // 30 degrees to the left
+    a_359 = 9999999.0;      // ~0 degrees straight ahead
 
     // All of our global variables
-    cur_speed_a = 0.0;        // speed of motor A wheel
-    cur_speed_b = 0.0;        // speed of motor B wheel  
+    fifo_path = NULL;       // path to fifo for pipe
+    cur_speed_a = 0.0;      // speed of motor A wheel
+    cur_speed_b = 0.0;      // speed of motor B wheel  
     currentPowerA = 0;      // range 0-100 (percent) Motor.c
     currentPowerB = 0;
     currentDirectionA = 0;  // 1 for forwards, 0 for back Motor.c
