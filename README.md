@@ -1,6 +1,8 @@
 # tinybot-autopilot
 Driver program for tiny self-driving car that follows a line track and goes around stationary/moving obstacles in its path. Uses Raspberry Pi4 microcontroller and various sensors 
 
+Note: This project was completed for a school project, however, I am currently working on implementing obstacle avoidance by adding Lidar and inter-process communication to make improvements.
+
 ## Documentation: https://drive.google.com/file/d/1eapBSEoN1Z0PoiNNOqIbhd1znlBn6Igq/view
 
 ## Videos:
