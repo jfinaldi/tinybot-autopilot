@@ -39,20 +39,20 @@ motor to spin in the forward direction at the speed
 specified.
 ********************************************************/
 void setupForward(int speed, int motor) {
-    // if motor is a, all PCA channels are 0, 1, 2
+    // all PCA channels are 0, 1, 2
     if(motor == MOTOR_A) {
-        PCA9685_SetPwmDutyCycle(PCA_CHANNEL_0, speed); // pulse at speed rate
-        PCA9685_SetLevel(PCA_CHANNEL_1, OFF); // Set channel 1 to off
-        PCA9685_SetLevel(PCA_CHANNEL_2, ON); // Set channel 2 to on
+        PCA9685_SetPwmDutyCycle(PCA_CHANNEL_0, speed); // pulse at 'speed' rate
+        PCA9685_SetLevel(PCA_CHANNEL_1, OFF); 
+        PCA9685_SetLevel(PCA_CHANNEL_2, ON); 
         currentPowerA = speed;
         currentDirectionA = FORWARD;
     }
 
-    // if motor is motor b, all PCA channels change to 5, 3, 4
+    // all PCA channels change to 5, 3, 4
     else if(motor == MOTOR_B) {
-        PCA9685_SetPwmDutyCycle(PCA_CHANNEL_5, speed); // pulse at speed rate
-        PCA9685_SetLevel(PCA_CHANNEL_3, OFF); // Set channel 1 to off
-        PCA9685_SetLevel(PCA_CHANNEL_4, ON); // Set channel 2 to on
+        PCA9685_SetPwmDutyCycle(PCA_CHANNEL_5, speed); // pulse at 'speed' rate
+        PCA9685_SetLevel(PCA_CHANNEL_3, OFF); 
+        PCA9685_SetLevel(PCA_CHANNEL_4, ON); 
         currentPowerB = speed;
         currentDirectionB = FORWARD;
     }

@@ -158,7 +158,7 @@ void init(char* path);
 void globals_init();
 void halt();
 void resume();
-int veer(int, int, int);
+int veer(int, int);
 int sharpTurn(int, int, int);
 int goAround();
 int getUnstuck();

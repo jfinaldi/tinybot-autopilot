@@ -52,24 +52,18 @@ void init(char* path) {
 Initiate a change in direction of vehicle travel. Operates by
 changing the speed of one front wheel to be faster 
 
-return: 1 for success, 0 for failure
+return: 0 for success, 1 for failure
 ***************************************************************/
-int veer(int goLeft, int speedA, int speedB) {
+int veer(int speedA, int speedB) {
     resume();
 
-    // Veer right
-    if(goLeft == OFF) {
-        setupForward(speedA, MOTOR_A); // slow down right wheel
-        setupForward(speedB, MOTOR_B); // speed up left wheel
-    }
-    // Veer left
-    else if(goLeft == ON) {
-        setupForward(speedA, MOTOR_A); // slow down right wheel
-        setupForward(speedB, MOTOR_B); // speed up left wheel
-    }
+    // trigger speed changes in each motor
+    setupForward(speedA, MOTOR_A); // right wheel
+    setupForward(speedB, MOTOR_B); // left wheel
+    
     delay(250);
-    resume(); // continue straight
-    return 1;
+    resume(); 
+    return 0;
 }
 
 /**************************************************************
@@ -173,22 +167,22 @@ int correctHeading() {
     // Almost completely left of the line: 0 0 1
     // Initiate a medium veer right maneuver
     while((onLine_B == OFF) && (onLine_C == OFF) && (onLine_D == ON)) 
-        veer(OFF, (DEFAULT_POWER_A - AGGRESSIVE - 2), (DEFAULT_POWER_B + AGGRESSIVE + 6));
+        veer((DEFAULT_POWER_A - AGGRESSIVE - 2), (DEFAULT_POWER_B + AGGRESSIVE + 6));
 
     // Slightly left of the line: 0 1 1
     // Initiate a slight veer right maneuver
     while((onLine_B == OFF) && (onLine_C == ON) && (onLine_D == ON))
-        veer(ON, (DEFAULT_POWER_A - VEER), (DEFAULT_POWER_B + VEER));
+        veer((DEFAULT_POWER_A - VEER), (DEFAULT_POWER_B + VEER));
 
     // Slightly right of the line: 1 1 0
     // Initiate a slight veer left maneuver
     while((onLine_B == ON) && (onLine_C == ON) && (onLine_D == OFF))
-        veer(ON, (DEFAULT_POWER_A + VEER), (DEFAULT_POWER_B - VEER));
+        veer((DEFAULT_POWER_A + VEER), (DEFAULT_POWER_B - VEER));
 
     // Almost completely right of the line: 1 0 0
     // Initiate a medium veer left maneuver
     while((onLine_B == ON) && (onLine_C == OFF) && (onLine_D == OFF))
-        veer(ON, (DEFAULT_POWER_A + AGGRESSIVE + 7), (DEFAULT_POWER_B - AGGRESSIVE - 4));
+        veer((DEFAULT_POWER_A + AGGRESSIVE + 7), (DEFAULT_POWER_B - AGGRESSIVE - 4));
 
     // Error Case: 1 0 1
     // This indicates two thin lines. Bad  
@@ -497,7 +491,7 @@ void* distanceThread(void* args) {
 
     // trigger an initial low pulse to settle the sensor
     digitalWrite(trigger, LOW);
-    delay(2000); // wait 2 seconds
+    delay(2000); 
     
     while(ON) {
         // Send a high/low pulse sequence
